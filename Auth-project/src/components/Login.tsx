@@ -80,10 +80,10 @@ export default function Login() {
         credentials: "include", // optional but useful for auth cookies
       });
 
-      const responseData = await res.json(); // ✅ fixed
+      const responseData = await res.json();
 
       if (!res.ok) {
-        window.alert("AUTH_FAILURE");
+        window.alert(responseData?.message || "AUTH_FAILURE");
       } else {
         navigate("/get-user");
       }
