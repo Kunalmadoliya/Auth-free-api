@@ -73,8 +73,8 @@ export default function GetUser() {
       });
       localStorage.removeItem("accessToken");
       navigate("/login");
-    } catch (err) {
-      console.error("LOGOUT_FAILED");
+    } finally{
+        console.log("done")
     }
   };
 
