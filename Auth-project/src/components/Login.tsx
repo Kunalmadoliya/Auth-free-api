@@ -68,19 +68,22 @@ export default function Login() {
     formState: {errors},
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    if (loading) return; // ✅ prevents spam
+  const onSubmit: SubmitHandler<FormValues> = async (formData) => {
+    if (loading) return;
 
     setLoading(true);
     try {
       const res = await fetch("https://api.freeapi.app/api/v1/users/login", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
+        credentials: "include", // optional but useful for auth cookies
       });
 
+      const responseData = await res.json(); // ✅ fixed
+
       if (!res.ok) {
-        window.alert("AUTH_FAILURE: Check credentials.");
+        window.alert("AUTH_FAILURE");
       } else {
         navigate("/get-user");
       }
@@ -96,10 +99,8 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-[#09090b] text-[#a1a1aa] font-mono selection:bg-white selection:text-black flex flex-col lg:flex-row relative">
-      {/* GRID BACKGROUND */}
       <div className="fixed inset-0 z-0 opacity-20 [background-image:radial-gradient(#444_1px,transparent_1.5px)] [background-size:32px_32px]" />
 
-      {/* LEFT */}
       <div className="hidden lg:flex flex-1 flex-col justify-between p-16 border-r border-white/5 z-10">
         <div>
           <div className="flex items-center gap-2 text-[10px] text-white/60 font-bold tracking-[0.3em] uppercase mb-12">
@@ -126,7 +127,6 @@ export default function Login() {
         </div>
       </div>
 
-      {/* RIGHT */}
       <div className="w-full lg:w-[45%] flex justify-center items-center z-10 p-6 md:p-12 lg:p-24 backdrop-blur-sm">
         <div className="w-full max-w-md">
           <TechnicalCell>
