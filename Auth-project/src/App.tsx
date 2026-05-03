@@ -3,6 +3,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 
 import Home from "./components/Home";
+import GetUser from "./components/GetUser";
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/get-user" element={<GetUser/>}/>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes>

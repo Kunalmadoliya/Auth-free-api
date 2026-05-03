@@ -77,14 +77,18 @@ export default function Login() {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(formData),
-        credentials: "include", // optional but useful for auth cookies
+      
       });
 
       const responseData = await res.json();
 
+      console.log(responseData);
+
       if (!res.ok) {
         window.alert(responseData?.message || "AUTH_FAILURE");
       } else {
+        localStorage.setItem("accessToken", responseData.data.accessToken);
+
         navigate("/get-user");
       }
     } catch {
@@ -141,30 +145,21 @@ export default function Login() {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-              <FormInput
-                label="Username"
-                id="username"
-                error={errors.username ? "Required" : undefined}
-              >
+              <FormInput label="Username" id="username">
                 <input
+                  id="username" // ✅ add this
+                  autoComplete="username" // ✅ add this
                   {...register("username", {required: true})}
                   placeholder="operator_id"
                   className={inputStyle}
                 />
               </FormInput>
 
-              <FormInput
-                label="Password"
-                id="password"
-                error={errors.password ? "Required" : undefined}
-                extraLabel={
-                  <span className="text-[8px] text-zinc-600 hover:text-white cursor-pointer transition-colors tracking-widest">
-                    FORGOT?
-                  </span>
-                }
-              >
+              <FormInput label="Password" id="password">
                 <input
+                  id="password" // ✅ add this
                   type="password"
+                  autoComplete="current-password" // ✅ add this
                   {...register("password", {required: true})}
                   placeholder="********"
                   className={inputStyle}
